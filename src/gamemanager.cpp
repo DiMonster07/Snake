@@ -1,13 +1,18 @@
 #include "gamemanager.h"
+#include <iostream>
+#include <ctime>
+const char *dir = "../src/map.txt";
 
-GameManager::GameManager()
+void initColorPairs();
+
+GameManager::GameManager(const char* name_map)
 {
-	this->map = Map(name_map);
+	this->map = Map();
 }
 
 GameManager& GameManager::instance()
 {
-	static GameManager manager();
+	static GameManager manager(dir);
 	return manager;
 }
 
@@ -38,7 +43,7 @@ void GameManager::deleteGrids()
 
 void GameManager::refreshGrid()
 {
-    this->map.printMap(this->game_win);
+    this->map.print(this->game_win);
     this->refreshInfo();
 };
 
@@ -78,13 +83,9 @@ void initColorPairs()
 {
 	init_pair(WALL_COLOR, 0, 0);
 	init_pair(GROUND_COLOR, 7, 7);
-	init_pair(KNIGHT_COLOR, 1, 7);
-	init_pair(PRINCESS_COLOR, 7, 5);
-	init_pair(ZOMBIE_COLOR, 2, 7);
-	init_pair(DRAGON_COLOR, 1, 0);
-	init_pair(ZOMBIES_SPAWN_COLOR, 0, 2);
-	init_pair(DRAGONS_SPAWN_COLOR, 0, 1);
-	init_pair(WIZARD_COLOR, 7, 4);
+    init_pair(SNAKE_HEAD_COLOR, 2, 0);
+	init_pair(SNAKE_BODY_COLOR, 2, 2);
+    init_pair(BONUS_COLOR, 7, 5);
 	init_pair(BASE_COLOR, 7, 0);
 }
 

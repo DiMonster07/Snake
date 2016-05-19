@@ -1,7 +1,5 @@
 #pragma once
-#include <ncurses.h>
-#include <panel.h>
-#include <vector>
+#include "meta.h"
 #include "map.h"
 
 class GameManager
@@ -9,8 +7,9 @@ class GameManager
 private:
 	WINDOW *game_win, *info_win;
 public:
-	bool is_end_game = false;
-	GameManager();
+	Map map;
+	GameManager() {};
+	GameManager(const char* name_map);
 	static GameManager& instance();
 	void initConsole();
 	void createGrids();
