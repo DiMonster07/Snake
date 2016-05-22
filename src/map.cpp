@@ -33,6 +33,25 @@ void Map::addObject(Object* obj)
     Point p = obj->get_point();
     delete this->map[p.x][p.y];
     this->map[p.x][p.y] = obj;
+    if (obj->get_symbol() == BONUS_SYMBOL) bonuses.push_back(obj);
+};
+
+int Map::get_bonus_count()
+{
+    return this->bonuses.size();
+};
+
+void Map::deleteBonus(Object* bonus)
+{
+    Point p = bonus->get_point();
+    for (int i = 0; i < this->bonuses.size(); i++)
+    {
+        if (p == this->bonuses[i]->get_point())
+        {
+            this->bonuses.erase(this->bonuses.begin() + i);
+            break;
+        }
+    }
 };
 
 Point Map::findFreePlace(Point lp, Point rp)

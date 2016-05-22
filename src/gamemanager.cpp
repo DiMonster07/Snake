@@ -7,9 +7,9 @@ const char *dir = "../src/map.txt";
 
 void initColorPairs();
 
-void GameManager::snakeMove()
+bool GameManager::snakeMove()
 {
-	this->map.snakeHead->move(&(this->map));
+	return this->map.snakeHead->move(&(this->map));
 };
 
 void GameManager::gameLoop()
@@ -21,10 +21,10 @@ void GameManager::gameLoop()
 	{
 		int command = wgetch(this->game_win);
 		if (this->keyCallback(command)) break;
-		this->snakeMove();
-		this->bonusGen();
+		if (this->snakeMove()) this->bonusGen();
 		this->refreshGrid();
 	}
+
 };
 
 bool GameManager::snake_is_died()
@@ -44,9 +44,8 @@ void GameManager::snakeCreate()
 
 void GameManager::bonusGen()
 {
-	if (this->bonus_count == 0)
+	if (this->map.get_bonus_count() == 0)
 	{
-		this->bonus_count++;
 		this->map.addObject(new Bonus(
 			this->map.findFreePlace(LEFT_ANG, RIGHT_ANG)));
 	}
@@ -106,9 +105,8 @@ void GameManager::refreshGrid()
 void GameManager::refreshInfo()
 {
 	wclear(this->info_win);
-	mvwprintw(this->info_win, 1, 0, "Score: %d", this->bonus_count);
-	Point p = this->map.snakeHead->get_direction();
-	mvwprintw(this->info_win, 2, 0, "Direction: %d %d", p.x, p.y);
+	mvwprintw(this->info_win, 1, 0, "Score: %d",
+		this->map.snakeHead->get_bonus_count());
 	wrefresh(this->info_win);
 };
 

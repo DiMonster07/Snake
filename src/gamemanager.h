@@ -22,5 +22,5 @@ public:
 	void bonusGen();
 	void snakeCreate();
 	bool snake_is_died();
-	void snakeMove();
+	bool snakeMove();
 };

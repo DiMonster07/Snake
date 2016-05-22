@@ -14,57 +14,57 @@ public:
 	void set_point(Point p);
     virtual int get_color() {};
     virtual char get_symbol() {};
-    // virtual void collide(Object* object) = 0;
-    // virtual void collide(SnakeHead* snakehead) = 0;
-    // virtual void collide(SnakeBody* snakebody) = 0;
-    // virtual void collide(Wall* wall) = 0;
-    // virtual void collide(Ground* ground) = 0;
-    // virtual void collide(Bonus* bonus) = 0;
+    virtual int collide(Object* object) = 0;
+    virtual int collide(SnakeHead* snakehead) { };
+    virtual int collide(SnakeBody* snakebody) { };
+    virtual int collide(Wall* wall) { };
+    virtual int collide(Ground* ground) { };
+    virtual int collide(Bonus* bonus) { };
 };
 
-class SnakeObj: public Object
+class Snake: public Object
 {
 public:
-    SnakeObj() : Object() { };
-    SnakeObj(Point p) : Object(p) { };
+    Snake() : Object() { };
+    Snake(Point p) : Object(p) { };
 };
 
-class SnakeBody: public SnakeObj
+class SnakeBody: public Snake
 {
 public:
-    SnakeBody() : SnakeObj() { };
-    SnakeBody(Point p) : SnakeObj(p) { };
+    SnakeBody() : Snake() { };
+    SnakeBody(Point p) : Snake(p) { };
     int get_color();
     char get_symbol();
-    void collide(Object* object);
+    int collide(Object* object);
+    int collide(SnakeHead* snakehead);
 };
 
-class SnakeHead: public SnakeObj
+class SnakeHead: public Snake
 {
 protected:
     Point direction;
     bool is_life = true;
+    int bonus_count;
 public:
     std::deque<SnakeBody*> body;
-    SnakeHead() : SnakeObj() { };
-    SnakeHead(Point p) : SnakeObj(p)
+    std::deque<Point>stomach;
+    SnakeHead() : Snake() { };
+    SnakeHead(Point p) : Snake(p)
     {
     	this->body.push_back(new SnakeBody(START_POSITION + Point(0, -1)));
     	this->body.push_back(new SnakeBody(START_POSITION + Point(0, -2)));
     };
     int get_color();
     char get_symbol();
+    int get_bonus_count();
     bool is_died();
     SnakeBody* addBodyPart(SnakeBody* bp);
     Point get_direction();
     void set_direction(Point p);
-    void move(Map* map);
-    // void collide(Object* object);
-    // void collide(SnakeHead* snakehead) {};
-    // void collide(SnakeBody* snakebody);
-    // void collide(Bonus* bonus);
-    // void collide(Wall* wall);
-    // void collide(Ground* ground);
+    void bonusEated(Point point);
+    bool move(Map* map);
+    int collide(Object* object);
 };
 
 class Environment: public Object
@@ -81,7 +81,8 @@ public:
     Wall(Point p) : Environment(p) { };
 	int get_color();
 	char get_symbol();
-    void collide(Object* object);
+    int collide(Object* object);
+    int collide(SnakeHead* snakehead);
 };
 
 class Ground: public Environment
@@ -91,7 +92,8 @@ public:
     Ground(Point p) : Environment(p) { };
 	int get_color();
 	char get_symbol();
-    void collide(Object* object);
+    int collide(Object* object);
+    int collide(SnakeHead* snakehead);
 };
 
 class Bonus: public Object
@@ -103,5 +105,6 @@ public:
     Bonus(Point p) : Object(p) { };
     int get_color();
     char get_symbol();
-    void collide(Object* object);
+    int collide(Object* object);
+    int collide(SnakeHead* snakehead);
 };
