@@ -24,7 +24,14 @@ void GameManager::gameLoop()
 		if (this->snakeMove()) this->bonusGen();
 		this->refreshGrid();
 	}
-
+	usleep(1000000);
+	wclear(this->info_win);
+	wrefresh(this->info_win);
+	wclear(this->game_win);
+	mvwprintw(this->game_win, 6, 10, "Your score: %d",
+		this->map.snakeHead->get_bonus_count());
+	wrefresh(this->game_win);
+	usleep(1000000);
 };
 
 bool GameManager::snake_is_died()

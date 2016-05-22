@@ -1,5 +1,6 @@
 #include "objects.h"
 #include "map.h"
+#include <cmath>
 
 Point Object::get_point()
 {
@@ -24,7 +25,8 @@ Point SnakeHead::get_direction()
 
 void SnakeHead::set_direction(Point p)
 {
-    this->direction = p;
+    if (std::abs(p.x - this->direction.x) != 2 && std::abs(p.y - this->direction.y) != 2)
+        this->direction = p;
 };
 
 bool SnakeHead::is_died()
