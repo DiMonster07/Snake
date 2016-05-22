@@ -6,6 +6,7 @@ class GameManager
 {
 private:
 	WINDOW *game_win, *info_win;
+	int bonus_count = 0;
 public:
 	Map map;
 	GameManager() {};
@@ -18,5 +19,8 @@ public:
 	void refreshInfo();
 	int keyCallback(int key);
 	void gameLoop();
-	void freeResources();
+	void bonusGen();
+	void snakeCreate();
+	bool snake_is_died();
+	void snakeMove();
 };

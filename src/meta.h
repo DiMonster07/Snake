@@ -2,6 +2,7 @@
 #include <ncurses.h>
 #include <panel.h>
 #include <vector>
+#include <deque>
 #include "point.h"
 
 #define GROUND_SYMBOL '.'
@@ -10,12 +11,13 @@
 #define SNAKE_BODY_SYMBOL 's'
 #define BONUS_SYMBOL 'B'
 
-class Map;
-class Object;
-class SnakeObj;
-class SnakeHead;
-class SnakeBody;
-class Bonus;
+#define LEFT_ANG Point(1, 1)
+#define RIGHT_ANG Point(28, 88)
+#define START_POSITION Point(14, 44)
+#define UP_DIRECTION Point(-1, 0)
+#define DOWN_DIRECTION Point(1, 0)
+#define LEFT_DIRECTION Point(0, -1)
+#define RIGHT_DIRECTION Point(0, 1)
 
 enum COLORS_UNITS
 {
@@ -26,3 +28,12 @@ enum COLORS_UNITS
 	BONUS_COLOR = 5,
 	BASE_COLOR = 6
 };
+
+class Map;
+class Object;
+class SnakeObj;
+class SnakeHead;
+class SnakeBody;
+class Wall;
+class Ground;
+class Bonus;

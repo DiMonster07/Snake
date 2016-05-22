@@ -7,7 +7,6 @@ int main(int argc, char **argv)
 	GameManager::instance().initConsole();
 	GameManager::instance().createGrids();
 	GameManager::instance().gameLoop();
-	GameManager::instance().freeResources();
 	endwin();
 	return 0;
 }
